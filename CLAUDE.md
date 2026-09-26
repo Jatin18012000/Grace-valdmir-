@@ -929,7 +929,8 @@ not a mockup or demonstration.
   Workflow appears to be a subgraph ("Text to Image (Flux.1 Dev)").
 - Confirmed on Jatin's Mac (2026-09-26, from `ls` output; files seen, not loaded or tested):
   - Saved workflows in ~/ComfyUI/user/default/workflows/: flux_dev_ipadapter_flux_wired.json,
-    FLUX_V1_BASELINE.json. Which one is the working workflow is not yet confirmed.
+    FLUX_V1_BASELINE.json. Jatin confirmed (2026-09-26) the working workflow is
+    flux_dev_ipadapter_flux_wired.json. FLUX_V1_BASELINE.json is not the production workflow.
   - models/unet/flux1-dev-Q4_K_S.gguf is a symlink to
     ~/.lmstudio/models/city96/FLUX.1-dev-gguf/flux1-dev-Q4_K_S.gguf (the file lives in LM Studio's folder).
   - models/text_encoders/: clip_l.safetensors (246 MB), t5xxl_fp8_e4m3fn.safetensors (4.9 GB).
