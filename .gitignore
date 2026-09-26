@@ -1,0 +1,19 @@
+# Grace reference images and generated media stay on Jatin's Mac only (decided 2026-09-27).
+# The repo stores metadata (file names, categories, checksums), never the images themselves.
+references/
+assets/
+output/
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.heic
+*.gif
+*.mp4
+*.mov
+*.webm
+*.wav
+*.mp3
+
+# macOS
+.DS_Store

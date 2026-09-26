@@ -910,6 +910,15 @@ not a mockup or demonstration.
 3. Name: "Grace Vladmir".
 4. Eyes: light blue.
 
+5. Reference images and generated media stay on Jatin's Mac only, never in GitHub (2026-09-27).
+   Local folder: ~/Grace-assets/references/grace/ (outside the repo). The repo may store only
+   metadata (file name, category, checksum). .gitignore blocks image, video and audio files.
+   The PRIMARY_IDENTITY image must also be copied into ~/ComfyUI/input/ for the Flux LoadImage node.
+6. Proposed reference categories (awaiting Jatin's approval) for the 5 images shared 2026-09-27:
+   cafe close-up = PRIMARY_IDENTITY; airport = FACE; hotel entrance = FACE backup (eyes lean green);
+   street with sunglasses = STYLE/HAIR/WARDROBE only; hotel window sea view = ENVIRONMENT/STYLE only
+   (lighter hair, face drifts). Mapping to files in ~/ComfyUI/output/ not yet identified.
+
 ## Still open
 
 1. Hair: lock one value (dark brown or near-black).
