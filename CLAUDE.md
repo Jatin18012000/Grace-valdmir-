@@ -589,13 +589,19 @@ Do not introduce unnecessary paid video SaaS.
 
 ---
 
-# 20. OLLAMA
+# 20. LOCAL LLM (LM STUDIO)
 
-Ollama is an optional local AI provider.
+Decided by Jatin (2026-09-26): the local LLM provider is LM Studio, not Ollama.
+Ollama is not used. Do not check for or integrate Ollama.
 
-Expected URL:
+LM Studio is an optional local AI provider.
 
-http://127.0.0.1:11434
+Expected URL (LM Studio's default local server; not yet confirmed on Jatin's machine):
+
+http://127.0.0.1:1234
+
+LM Studio exposes an OpenAI-compatible API (for example GET /v1/models).
+The local server must be started in LM Studio before it responds.
 
 Potential responsibilities:
 
@@ -606,9 +612,9 @@ Potential responsibilities:
 - dialogue
 - QC assistance
 
-The application must detect whether Ollama is available.
+The application must detect whether LM Studio is available.
 
-Do not make the entire application dependent on Ollama being online.
+Do not make the entire application dependent on LM Studio being online.
 
 ---
 
@@ -624,7 +630,7 @@ Current environment:
 - ComfyUI
 - Flux
 - Wan
-- Ollama
+- LM Studio
 - FFmpeg
 - Node.js
 - TypeScript
@@ -743,7 +749,7 @@ For example:
 ComfyUI:
 ONLINE / OFFLINE
 
-Ollama:
+LM Studio:
 ONLINE / OFFLINE
 
 Jobs:
