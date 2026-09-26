@@ -936,8 +936,11 @@ not a mockup or demonstration.
   - models/text_encoders/: clip_l.safetensors (246 MB), t5xxl_fp8_e4m3fn.safetensors (4.9 GB).
   - models/vae/: ae.safetensors (335 MB).
   - models/clip, diffusion_models, checkpoints, loras: empty (placeholder files only).
-  - models/ipadapter/ does not exist. Location of the Flux IPAdapter model (ip-adapter.bin) and
-    SigLIP encoder is not yet found.
+  - models/ipadapter/ does not exist; the Flux IPAdapter model is models/ipadapter-flux/ip-adapter.bin.
+    No SigLIP files under models/ (likely in the Hugging Face cache; not yet confirmed).
+  - custom_nodes/: ComfyUI-GGUF, comfyui-ipadapter-flux, websocket_image_save.py.
+  - input/: IMG_4706.jpg, example.png, clipspace-* masks, 3d/. No woman_reference.jpg present;
+    which image the workflow actually loads must be checked in the workflow JSON.
   - ComfyUI (8188) and LM Studio (1234) did not respond at check time (likely not running).
-- Still needed: Flux workflow JSON (UI + Export API), IPAdapter model location, Wan workflow JSON,
+- Still needed: Flux workflow JSON (UI + Export API), SigLIP location, Wan workflow JSON,
   3-5 approved Grace images.
