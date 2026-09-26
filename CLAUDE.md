@@ -927,4 +927,16 @@ not a mockup or demonstration.
   google/siglip-so400m-patch14-*, provider mps, KSampler seed 0 fixed / 20 steps / cfg 1.0 /
   euler / simple / denoise 1.0, negative = Conditioning Zero Out, Save Image prefix "ComfyUI".
   Workflow appears to be a subgraph ("Text to Image (Flux.1 Dev)").
-- Still needed: Flux workflow Export (API) JSON, Wan workflow JSON, 3-5 approved Grace images.
+- Confirmed on Jatin's Mac (2026-09-26, from `ls` output; files seen, not loaded or tested):
+  - Saved workflows in ~/ComfyUI/user/default/workflows/: flux_dev_ipadapter_flux_wired.json,
+    FLUX_V1_BASELINE.json. Which one is the working workflow is not yet confirmed.
+  - models/unet/flux1-dev-Q4_K_S.gguf is a symlink to
+    ~/.lmstudio/models/city96/FLUX.1-dev-gguf/flux1-dev-Q4_K_S.gguf (the file lives in LM Studio's folder).
+  - models/text_encoders/: clip_l.safetensors (246 MB), t5xxl_fp8_e4m3fn.safetensors (4.9 GB).
+  - models/vae/: ae.safetensors (335 MB).
+  - models/clip, diffusion_models, checkpoints, loras: empty (placeholder files only).
+  - models/ipadapter/ does not exist. Location of the Flux IPAdapter model (ip-adapter.bin) and
+    SigLIP encoder is not yet found.
+  - ComfyUI (8188) and LM Studio (1234) did not respond at check time (likely not running).
+- Still needed: Flux workflow JSON (UI + Export API), IPAdapter model location, Wan workflow JSON,
+  3-5 approved Grace images.
