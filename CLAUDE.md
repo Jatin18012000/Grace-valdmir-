@@ -10,7 +10,9 @@ Read this file before making changes to the repository.
 # 1. PROJECT IDENTITY
 
 Project name:
-Grace Valdmir
+Grace Vladmir
+
+(Character name is spelled "Vladmir". The repository name "Grace-valdmir-" is a legacy spelling and is not renamed.)
 
 Repository:
 Grace-valdmir-
@@ -87,7 +89,7 @@ Core visual characteristics:
 
 - feminine photorealistic appearance
 - long dark brown / near-black hair
-- light blue / blue-grey / grey-green eyes
+- light blue eyes (locked 2026-09-27)
 - defined dark eyebrows
 - full lips
 - defined cheekbones
@@ -399,18 +401,21 @@ Idea
 
 # 12. SOCIAL MEDIA NICHE
 
-Primary content niche:
+Primary content niche (decided 2026-09-27):
+
+LIFESTYLE FIRST: chill, aspirational "dream life" content.
+
+Secondary / occasional:
 
 - AI
 - AI tools
 - AI news
-- AI research
-- AI jobs
 - AI productivity
 - technology
 - creator technology
 
-Grace can also have lifestyle content that supports the character and brand.
+AI/tech content supports the character; it is not the main niche.
+AI news as a primary focus belongs to the separate AIwaliBat brand, not Grace.
 
 The content system should balance:
 
@@ -887,30 +892,22 @@ not a mockup or demonstration.
 
 ---
 
-# 31. OPEN DECISIONS (awaiting Jatin)
+# 31. DECISIONS AND OPEN QUESTIONS
 
-Do not resolve these by guessing. Ask, or leave the related work as NEEDS USER INPUT.
+## Decided by Jatin (2026-09-27)
 
-1. Existing Flux workflow vs. Section 2.
-   The current Flux workflow (seen only as a screenshot, 2026-09-27) has a positive prompt
-   that asks for "a completely new fictional adult woman ... different facial features,
-   identity, and appearance", and its reference image is `woman_reference.jpg`.
-   That contradicts the core principle. Pending approval: keep all nodes/models/settings,
-   but change the prompt wording and point the reference at an approved Grace image.
+1. Flux workflow: APPROVED to change only the positive prompt wording (remove the
+   "completely new / different person" instructions) and to replace `woman_reference.jpg`
+   with an approved Grace image. All nodes, models and settings stay as they are.
+   Not yet applied: needs the Export (API) JSON and the approved Grace image first.
+2. Niche: lifestyle first; AI/tech is secondary (see Section 12).
+3. Name: "Grace Vladmir".
+4. Eyes: light blue.
 
-2. Primary niche.
-   Section 12 says AI/tech first. Grace was earlier described as a chill, aspirational
-   lifestyle influencer, and AI news is already covered by the separate AIwaliBat brand.
-   Which is primary for Grace?
+## Still open
 
-3. Name spelling.
-   Confirm "Grace Valdmir" (not "Vladmir") as final.
-
-4. Lock eye and hair colour.
-   Section 3 gives ranges (blue / blue-grey / grey-green eyes; dark brown / near-black hair).
-   Pick one value for each from the best approved Grace image.
-
-5. Wan on 24 GB unified memory (untested).
+1. Hair: lock one value (dark brown or near-black).
+2. Wan on 24 GB unified memory (untested).
    Native 1080 x 1920 at 30 FPS may not be feasible locally; a smaller or quantized Wan model
    plus FFmpeg upscaling/interpolation may be needed. Decide after a real test.
 
