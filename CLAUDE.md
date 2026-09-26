@@ -942,5 +942,8 @@ not a mockup or demonstration.
   - input/: IMG_4706.jpg, example.png, clipspace-* masks, 3d/. No woman_reference.jpg present;
     which image the workflow actually loads must be checked in the workflow JSON.
   - ComfyUI (8188) and LM Studio (1234) did not respond at check time (likely not running).
-- Still needed: Flux workflow JSON (UI + Export API), SigLIP location, Wan workflow JSON,
+- Flux workflow JSON (UI format) audited: see docs/audit/flux-workflow-audit.md. Key points: saved
+  prompt is empty; reference image is clipspace-painted-masked-1790144092869.png (temp mask-editor
+  file); image saved twice (prefixes Flux.1_Dev and ComfyUI); SigLIP loads from the HF cache.
+- Still needed: Flux Export (API) JSON, Wan workflow JSON,
   3-5 approved Grace images.
