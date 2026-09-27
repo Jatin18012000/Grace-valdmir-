@@ -88,7 +88,7 @@ Current visual references establish her appearance.
 Core visual characteristics:
 
 - feminine photorealistic appearance
-- long dark brown / near-black hair
+- long dark brown / near-black hair (locked 2026-09-27; lighting may make it look lighter)
 - light blue eyes (locked 2026-09-27)
 - defined dark eyebrows
 - full lips
@@ -919,10 +919,14 @@ not a mockup or demonstration.
    street with sunglasses = STYLE/HAIR/WARDROBE only; hotel window sea view = ENVIRONMENT/STYLE only
    (lighter hair, face drifts). Mapping to files in ~/ComfyUI/output/ not yet identified.
 
+7. Hair colour LOCKED as "dark brown / near-black" (2026-09-27). Nose and face shape are PENDING:
+   never guess or fill them. Only approved attributes are locked facts (see characters/grace/bible.json).
+8. Foundation stack APPROVED (2026-09-27): Next.js, TypeScript (strict), SQLite (better-sqlite3),
+   Zod, Vitest. LLM access goes through the LlmProvider interface; LM Studio is the first provider.
+
 ## Still open
 
-1. Hair: lock one value (dark brown or near-black).
-2. Wan on 24 GB unified memory (untested).
+1. Wan on 24 GB unified memory (untested).
    Native 1080 x 1920 at 30 FPS may not be feasible locally; a smaller or quantized Wan model
    plus FFmpeg upscaling/interpolation may be needed. Decide after a real test.
 
@@ -956,3 +960,8 @@ not a mockup or demonstration.
   file); image saved twice (prefixes Flux.1_Dev and ComfyUI); SigLIP loads from the HF cache.
 - Still needed: Flux Export (API) JSON, Wan workflow JSON,
   3-5 approved Grace images.
+
+# 33. IMPLEMENTATION STATUS
+
+Foundation (2026-09-27) is implemented and tested in the cloud container. Not yet run on Jatin's Mac.
+Phases after Foundation require separate approval. Details: README.md.

@@ -2,54 +2,134 @@
   "schemaVersion": 1,
   "characterId": "grace",
   "name": "Grace Vladmir",
-  "status": "DRAFT: physical identity derived from 5 reference images shared 2026-09-27; hair value pending approval",
+  "identity": {
+    "fictional": true,
+    "summary": "Fictional AI-generated female influencer with a photorealistic appearance.",
+    "username": { "status": "PENDING", "value": null },
+    "biography": { "status": "PENDING", "value": null },
+    "languages": { "status": "PENDING", "value": null },
+    "targetAudience": { "status": "PENDING", "value": null }
+  },
+  "personality": {
+    "traits": { "status": "PENDING", "value": null },
+    "interests": { "status": "PENDING", "value": null },
+    "values": { "status": "PENDING", "value": null },
+    "dislikes": { "status": "PENDING", "value": null }
+  },
+  "communicationStyle": {
+    "tone": { "status": "PENDING", "value": null },
+    "vocabulary": { "status": "PENDING", "value": null },
+    "catchphrases": { "status": "PENDING", "value": null }
+  },
   "niche": {
-    "primary": "lifestyle: chill, aspirational dream-life content (travel, hotels, cafes, city life)",
-    "secondary": ["AI tools", "technology", "creator tech"]
+    "primary": "Lifestyle: chill, aspirational dream-life content",
+    "secondary": ["AI", "AI tools", "technology", "creator technology"],
+    "rules": [
+      "AI/tech content supports the character; it must not become the primary niche.",
+      "Do not make every post look like an advertisement."
+    ]
   },
   "physicalIdentity": {
-    "locked": {
-      "eyes": "light blue",
-      "eyebrows": "defined, dark, softly arched",
-      "lips": "full, natural pink-nude tone",
-      "cheekbones": "high and defined",
-      "faceShape": "oval face with defined jawline and slim straight nose",
-      "skin": "warm olive / lightly tanned, natural texture",
-      "hairLength": "long, past the chest"
+    "eyeColour": {
+      "status": "LOCKED",
+      "value": "light blue",
+      "source": "Jatin (CLAUDE.md Section 31; Foundation approval)",
+      "lockedOn": "2026-09-27"
     },
-    "pendingApproval": {
-      "hairColor": "dark brown (proposed; alternative near-black)",
-      "apparentAge": "mid-20s (proposed from references)"
+    "eyeShape": { "status": "PENDING", "value": null },
+    "eyebrows": {
+      "status": "LOCKED",
+      "value": "defined, dark",
+      "source": "Jatin (CLAUDE.md Section 3; Foundation approval)",
+      "lockedOn": "2026-09-27"
     },
-    "variable": ["hairstyle within limits (loose waves, straight, sleek ponytail)", "makeup intensity", "expression", "pose"]
+    "nose": { "status": "PENDING", "value": null, "note": "Explicitly pending per Foundation approval" },
+    "lips": {
+      "status": "LOCKED",
+      "value": "full",
+      "source": "Jatin (CLAUDE.md Section 3; Foundation approval)",
+      "lockedOn": "2026-09-27"
+    },
+    "jaw": { "status": "PENDING", "value": null },
+    "faceShape": { "status": "PENDING", "value": null, "note": "Explicitly pending per Foundation approval" },
+    "facialStructure": {
+      "status": "LOCKED",
+      "value": "defined",
+      "source": "Jatin (CLAUDE.md Section 3; Foundation approval)",
+      "lockedOn": "2026-09-27"
+    },
+    "facialProportions": {
+      "status": "PENDING",
+      "value": null,
+      "note": "To be established from approved reference images, not from text"
+    },
+    "cheekbones": {
+      "status": "LOCKED",
+      "value": "defined",
+      "source": "Jatin (CLAUDE.md Section 3; Foundation approval)",
+      "lockedOn": "2026-09-27"
+    },
+    "skin": {
+      "status": "LOCKED",
+      "value": "warm / olive",
+      "source": "Jatin (CLAUDE.md Section 3; Foundation approval)",
+      "lockedOn": "2026-09-27"
+    },
+    "hairColour": {
+      "status": "LOCKED",
+      "value": "dark brown / near-black",
+      "source": "Jatin (Foundation approval)",
+      "lockedOn": "2026-09-27",
+      "note": "Lighting may make it appear lighter; the canonical colour does not change"
+    },
+    "hairLength": {
+      "status": "LOCKED",
+      "value": "long",
+      "source": "Jatin (CLAUDE.md Section 3; Foundation approval)",
+      "lockedOn": "2026-09-27"
+    }
   },
   "visualStyle": {
-    "photography": "candid smartphone / influencer photo, natural light, realistic",
-    "compositions": ["three-quarter body", "waist-up", "full body walking", "seated close-up"],
-    "lighting": "soft daylight, golden hour, warm interior light",
-    "color": "warm neutral tones: beige, cream, white, denim, black accents",
-    "realism": "photorealistic; no illustration, no heavy retouching"
+    "realism": {
+      "status": "LOCKED",
+      "value": "photorealistic, realistic photographic appearance",
+      "source": "Jatin (CLAUDE.md Section 3; Foundation approval)",
+      "lockedOn": "2026-09-27"
+    },
+    "photography": { "status": "PENDING", "value": null },
+    "compositions": { "status": "PENDING", "value": null },
+    "lighting": { "status": "PENDING", "value": null },
+    "colour": { "status": "PENDING", "value": null }
   },
   "wardrobe": {
-    "signature": ["neutral tank tops", "beige blazers", "high-waist denim", "linen shorts", "knit dresses", "gold minimal jewellery", "black travel bag"],
-    "rule": "Wardrobe varies freely and must never change facial identity."
+    "rule": "Wardrobe is variable and must never redefine character identity.",
+    "categories": ["casual", "streetwear", "fitness", "business", "travel", "luxury", "summer", "winter", "evening", "creator/tech"]
   },
-  "prompting": {
-    "identityAnchor": "Grace, a young woman with long dark brown hair, light blue eyes, defined dark eyebrows, full lips, high defined cheekbones, slim straight nose and warm olive skin",
-    "styleSuffix": "candid smartphone photo, natural light, realistic skin texture, photorealistic, Instagram lifestyle photography",
-    "notes": [
-      "The Flux workflow uses cfg 1.0 with a zeroed negative prompt, so negative prompts have no effect. Describe what you want, not what to avoid.",
-      "Identity comes mainly from the IPAdapter reference image (node 63); the text anchor reinforces it."
-    ]
-  },
-  "references": {
-    "storage": "Local only: ~/Grace-assets/references/grace/ (never committed to git)",
-    "proposed": [
-      {"label": "cafe close-up", "category": "PRIMARY_IDENTITY", "file": null, "sha256": null},
-      {"label": "airport", "category": "FACE", "file": null, "sha256": null},
-      {"label": "hotel entrance", "category": "FACE_BACKUP", "file": null, "sha256": null, "note": "eyes lean green"},
-      {"label": "street, sunglasses", "category": "STYLE", "file": null, "sha256": null},
-      {"label": "hotel window, sea view", "category": "ENVIRONMENT", "file": null, "sha256": null, "note": "lighter hair; do not use for identity"}
-    ]
-  }
+  "variableAttributes": [
+    "location",
+    "environment",
+    "clothing",
+    "hairstyle within controlled limits",
+    "pose",
+    "expression",
+    "camera",
+    "lighting",
+    "composition",
+    "activity",
+    "content concept"
+  ],
+  "generationConstraints": [
+    "Identity consistency has higher priority than stylistic variation.",
+    "Facial identity comes from approved identity reference images; text only reinforces it.",
+    "Never change a LOCKED attribute to satisfy a prompt or style request.",
+    "Never fill a PENDING attribute with a guessed value.",
+    "Hair may appear lighter under some lighting; the canonical hair colour does not change."
+  ],
+  "references": [
+    { "label": "cafe close-up", "category": "PRIMARY_IDENTITY", "status": "PROPOSED", "localPath": null, "sha256": null },
+    { "label": "airport", "category": "FACE", "status": "PROPOSED", "localPath": null, "sha256": null },
+    { "label": "hotel entrance", "category": "FACE", "status": "PROPOSED", "localPath": null, "sha256": null, "note": "Backup only; eyes lean green" },
+    { "label": "street with sunglasses", "category": "STYLE", "status": "PROPOSED", "localPath": null, "sha256": null, "note": "Eyes hidden; not usable for identity" },
+    { "label": "hotel window, sea view", "category": "ENVIRONMENT", "status": "PROPOSED", "localPath": null, "sha256": null, "note": "Hair appears lighter and face drifts; not for identity" }
+  ]
 }

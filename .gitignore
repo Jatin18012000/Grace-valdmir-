@@ -1,8 +1,8 @@
 # Grace reference images and generated media stay on Jatin's Mac only (decided 2026-09-27).
 # The repo stores metadata (file names, categories, checksums), never the images themselves.
-references/
-assets/
-output/
+/references/
+/assets/
+/output/
 *.png
 *.jpg
 *.jpeg
@@ -17,3 +17,15 @@ output/
 
 # macOS
 .DS_Store
+
+# Node / Next.js
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+
+# Local data (SQLite database) and env
+/data/
+.env
+.env.local
+.env.*.local
