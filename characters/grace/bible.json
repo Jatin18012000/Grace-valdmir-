@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "characterId": "grace",
+  "name": "Grace Vladmir",
+  "status": "DRAFT: physical identity derived from 5 reference images shared 2026-09-27; hair value pending approval",
+  "niche": {
+    "primary": "lifestyle: chill, aspirational dream-life content (travel, hotels, cafes, city life)",
+    "secondary": ["AI tools", "technology", "creator tech"]
+  },
+  "physicalIdentity": {
+    "locked": {
+      "eyes": "light blue",
+      "eyebrows": "defined, dark, softly arched",
+      "lips": "full, natural pink-nude tone",
+      "cheekbones": "high and defined",
+      "faceShape": "oval face with defined jawline and slim straight nose",
+      "skin": "warm olive / lightly tanned, natural texture",
+      "hairLength": "long, past the chest"
+    },
+    "pendingApproval": {
+      "hairColor": "dark brown (proposed; alternative near-black)",
+      "apparentAge": "mid-20s (proposed from references)"
+    },
+    "variable": ["hairstyle within limits (loose waves, straight, sleek ponytail)", "makeup intensity", "expression", "pose"]
+  },
+  "visualStyle": {
+    "photography": "candid smartphone / influencer photo, natural light, realistic",
+    "compositions": ["three-quarter body", "waist-up", "full body walking", "seated close-up"],
+    "lighting": "soft daylight, golden hour, warm interior light",
+    "color": "warm neutral tones: beige, cream, white, denim, black accents",
+    "realism": "photorealistic; no illustration, no heavy retouching"
+  },
+  "wardrobe": {
+    "signature": ["neutral tank tops", "beige blazers", "high-waist denim", "linen shorts", "knit dresses", "gold minimal jewellery", "black travel bag"],
+    "rule": "Wardrobe varies freely and must never change facial identity."
+  },
+  "prompting": {
+    "identityAnchor": "Grace, a young woman with long dark brown hair, light blue eyes, defined dark eyebrows, full lips, high defined cheekbones, slim straight nose and warm olive skin",
+    "styleSuffix": "candid smartphone photo, natural light, realistic skin texture, photorealistic, Instagram lifestyle photography",
+    "notes": [
+      "The Flux workflow uses cfg 1.0 with a zeroed negative prompt, so negative prompts have no effect. Describe what you want, not what to avoid.",
+      "Identity comes mainly from the IPAdapter reference image (node 63); the text anchor reinforces it."
+    ]
+  },
+  "references": {
+    "storage": "Local only: ~/Grace-assets/references/grace/ (never committed to git)",
+    "proposed": [
+      {"label": "cafe close-up", "category": "PRIMARY_IDENTITY", "file": null, "sha256": null},
+      {"label": "airport", "category": "FACE", "file": null, "sha256": null},
+      {"label": "hotel entrance", "category": "FACE_BACKUP", "file": null, "sha256": null, "note": "eyes lean green"},
+      {"label": "street, sunglasses", "category": "STYLE", "file": null, "sha256": null},
+      {"label": "hotel window, sea view", "category": "ENVIRONMENT", "file": null, "sha256": null, "note": "lighter hair; do not use for identity"}
+    ]
+  }
+}
