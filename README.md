@@ -1,6 +1,7 @@
-# Grace OS
+# Grace Autopilot
 
-Local-first AI Influencer Operating System for **Grace Vladmir**, a fictional AI influencer.
+Local-first autonomous AI influencer operating system for **Grace Vladmir**, a fictional AI influencer.
+Architecture: [`docs/architecture/grace-autopilot.md`](docs/architecture/grace-autopilot.md).
 Project rules and decisions: [`CLAUDE.md`](CLAUDE.md).
 
 ## Status

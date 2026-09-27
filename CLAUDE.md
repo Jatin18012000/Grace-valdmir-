@@ -1,9 +1,12 @@
-# GRACE — AI INFLUENCER OS
+# GRACE AUTOPILOT
 ## Persistent Project Memory
 
 This file is the authoritative project context for Claude Code.
 
 Read this file before making changes to the repository.
+
+Official architecture (adopted 2026-09-27): docs/architecture/grace-autopilot.md
+Documentation is not evidence of implementation. Section 33 records what actually exists.
 
 ---
 
@@ -23,18 +26,30 @@ https://github.com/Jatin18012000/Grace-valdmir-
 Owner:
 Jatin
 
-Project type:
-AI Influencer Operating System
+Product name:
+GRACE AUTOPILOT (official product definition since 2026-09-27)
 
-Primary objective:
+Product definition:
 
-Build a local-first AI Influencer production system capable of creating consistent,
-high-quality social-media content featuring the same AI influencer character across
-images, videos, reels, stories and other media.
+GRACE AUTOPILOT is a local-first autonomous AI influencer operating system that generates
+content ideas, converts those ideas into Grace-specific prompts, sends generation jobs to
+locally hosted ComfyUI workflows, collects and validates generated assets, creates captions
+and hashtags, schedules content, and prepares/publishes Grace Vladmir content to Instagram
+through a controlled browser automation layer.
 
-The system should eventually handle:
+Target flow:
 
-Character → Content Idea → Prompt → Image → Video → Voice → Editing → QC → Approval → Publishing
+Idea → Content Plan → Prompt → ComfyUI → Flux/Wan → Output folder → Asset ingestion
+→ Identity QC → Content QC → Caption + Hashtags → Scheduling → Publishing queue
+→ Browser adapter (Claude/Chrome) → Instagram
+
+The long-term goal is minimal human intervention, built incrementally and safely.
+
+Ownership: the application owns state, scheduling, jobs, database, queues, asset library, QC,
+retries and logs. AI models own creativity (ideas, copy, prompts). ComfyUI owns generation.
+Claude/Chrome only performs browser interaction when the publishing adapter invokes it.
+
+Cost: no additional per-post API/SaaS cost. Paid services need explicit approval.
 
 The character's visual identity is a core product requirement.
 
@@ -521,11 +536,14 @@ QC should check where practical:
 - missing prompt
 - content completeness
 
-Possible QC status:
+QC status (changed 2026-09-27 by the GRACE AUTOPILOT directive; was PASS/WARNING/FAIL):
 
 PASS
-WARNING
+REVIEW
 FAIL
+
+Identity QC and content QC are separate layers. Automated face verification is never
+claimed to be perfect; thresholds come only from calibration on real Grace references.
 
 Failed QC must not automatically move to publishing.
 
@@ -544,6 +562,15 @@ GENERATED
 → PUBLISHED
 
 Human approval is mandatory until the publishing system has been explicitly approved for automation.
+
+Autopilot modes (GRACE AUTOPILOT):
+
+- ASSISTED (default): the system prepares everything; a human approves each publish.
+- SUPERVISED: the system runs everything including QC; a human can review before publishing.
+- FULL: publishes without approval. Must NOT be enabled during development; needs explicit approval.
+
+PUBLISH_MODE defaults to MANUAL_APPROVAL. Never silently publish. Never silently delete assets.
+Publishing goes through a replaceable PublishingAdapter (Manual first; Claude/Chrome is EXPERIMENTAL).
 
 ---
 
@@ -591,8 +618,9 @@ Do not introduce unnecessary paid video SaaS.
 
 # 20. LOCAL LLM (LM STUDIO)
 
-Decided by Jatin (2026-09-26): the local LLM provider is LM Studio, not Ollama.
-Ollama is not used. Do not check for or integrate Ollama.
+Decided by Jatin (2026-09-26): the initial local LLM provider is LM Studio.
+Update 2026-09-27: Ollama is installed on the Mac and may be added later as another
+LlmProvider adapter. It is not integrated now. Nothing may call LM Studio except its adapter.
 
 LM Studio is an optional local AI provider.
 
@@ -761,105 +789,54 @@ Never fabricate these values.
 
 # 26. CURRENT DEVELOPMENT PRIORITY
 
-Do NOT try to build the entire system simultaneously.
+Official phase order (GRACE AUTOPILOT, 2026-09-27; replaces the earlier 13-phase list).
+Each phase ends with tests and a report, then STOPS for approval.
 
-Preferred order:
+PHASE 0   Project audit (done 2026-09-27)
+PHASE 1   Foundation (mostly done; gaps: system_events logging, settings, error conventions)
+PHASE 2   Grace identity system (identity schema, reference registry, versioning)
+PHASE 3   Content intelligence (ideas, creative briefs, LLM provider, prompt compiler)
+PHASE 4   ComfyUI controller (health, workflow registry, submit, track, output detection)
+PHASE 5   Flux integration (real exported API workflow, real generation)
+PHASE 6   Asset library (ingestion, states, identity + content QC, traceability)
+PHASE 7   Wan integration (real workflow, benchmarked on the M5 24 GB)
+PHASE 8   Captions + hashtags
+PHASE 9   Scheduler
+PHASE 10  Publishing queue (approval, retries, manual fallback)
+PHASE 11  Claude / Chrome publishing adapter (EXPERIMENTAL)
+PHASE 12  End-to-end autopilot
+PHASE 13  Dashboard
 
-PHASE 1
-Repository audit
-
-PHASE 2
-Character identity system
-
-PHASE 3
-Reference-image system
-
-PHASE 4
-Existing Flux workflow integration
-
-PHASE 5
-Reliable Flux generation jobs
-
-PHASE 6
-Asset library
-
-PHASE 7
-Wan workflow integration
-
-PHASE 8
-Flux → Wan pipeline
-
-PHASE 9
-Content engine
-
-PHASE 10
-Voice/audio/FFmpeg
-
-PHASE 11
-QC
-
-PHASE 12
-Dashboard refinement
-
-PHASE 13
-Publishing automation
+Voice/audio and FFmpeg reel assembly are not in this list; they follow Phase 12 unless re-ordered.
 
 ---
 
 # 27. CURRENT IMMEDIATE OBJECTIVE
 
-The immediate goal is NOT to finish the entire AI Influencer OS.
+Make the pipeline reliable from left to right:
 
-The immediate goal is:
+1. Idea → Prompt → ComfyUI → Output → Asset
+2. then → QC → Caption → Schedule
+3. then → Publish
 
-Build a reliable pipeline that can generate Grace consistently.
-
-First:
-
-Character
-→ Reference
-→ Flux
-→ Image
-
-Then:
-
-Image
-→ Wan
-→ Video
-
-Then:
-
-Video
-→ Voice
-→ Captions
-→ FFmpeg
-→ Reel
-
-Only after these work independently should they be fully orchestrated by the AI Influencer OS.
+Do not jump to Instagram publishing. The LLM never writes the final prompt: creative brief
+(LLM) + Grace identity (system) → deterministic, versioned prompt compiler → ComfyUI.
 
 ---
 
 # 28. DEVELOPMENT COMMUNICATION
 
-When reporting progress:
+At the end of every phase, report in this format (GRACE AUTOPILOT, 2026-09-27):
 
-Always separate:
+STATUS: DONE / PARTIAL / BLOCKED
+IMPLEMENTED: [list]
+TESTED: [list, with the commands and results]
+NOT TESTED: [list]
+BLOCKERS: [list]
+FILES CHANGED: [list]
+NEXT STEP: [one clear next step]
 
-WORKING
-PARTIALLY WORKING
-NOT IMPLEMENTED
-BLOCKED
-NEEDS USER INPUT
-
-Always provide:
-
-- files changed
-- commands run
-- tests run
-- test results
-- remaining issues
-- exact next step
-
+"Code compiles" is not "integration works". "Architecture exists" is not "feature works".
 Do not say "done" if it has not been tested.
 
 ---
@@ -924,9 +901,17 @@ not a mockup or demonstration.
 8. Foundation stack APPROVED (2026-09-27): Next.js, TypeScript (strict), SQLite (better-sqlite3),
    Zod, Vitest. LLM access goes through the LlmProvider interface; LM Studio is the first provider.
 
+9. GRACE AUTOPILOT adopted as the official product definition (2026-09-27).
+   Architecture: docs/architecture/grace-autopilot.md.
+
 ## Still open
 
-1. Wan on 24 GB unified memory (untested).
+1. Publishing adapter feasibility: can the app trigger Claude in Chrome / Cowork on a schedule?
+   Untested. Instagram's terms restrict automated access; account-risk decision is Jatin's.
+   ManualAdapter must work end to end first.
+2. Workflow file location: the Flux API export goes to comfy/workflows/flux_grace_api.json
+   (directive). The existing UI-format files are in workflows/flux/. Consolidate in Phase 4.
+3. Wan on 24 GB unified memory (untested).
    Native 1080 x 1920 at 30 FPS may not be feasible locally; a smaller or quantized Wan model
    plus FFmpeg upscaling/interpolation may be needed. Decide after a real test.
 
@@ -964,4 +949,7 @@ not a mockup or demonstration.
 # 33. IMPLEMENTATION STATUS
 
 Foundation (2026-09-27) is implemented and tested in the cloud container. Not yet run on Jatin's Mac.
-Phases after Foundation require separate approval. Details: README.md.
+Exists: config, SQLite + migrations, Character Bible (locked/pending, versions, export),
+LlmProvider + LM Studio adapter, ComfyUI/LM Studio health checks, Overview + Grace pages, 37 tests.
+Does not exist: everything else in the gap table of docs/architecture/grace-autopilot.md.
+Phases after Foundation require separate approval.
