@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
+import { withErrorHandling } from "@/core/http";
 import { getSystemStatus } from "@/core/status";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
-  return NextResponse.json(await getSystemStatus());
-}
+export const GET = withErrorHandling("api/health", async () => NextResponse.json(await getSystemStatus()));

@@ -793,7 +793,7 @@ Official phase order (GRACE AUTOPILOT, 2026-09-27; replaces the earlier 13-phase
 Each phase ends with tests and a report, then STOPS for approval.
 
 PHASE 0   Project audit (done 2026-09-27)
-PHASE 1   Foundation (mostly done; gaps: system_events logging, settings, error conventions)
+PHASE 1   Foundation (done 2026-09-27: incl. event_log, settings, AppError; cloud-tested only)
 PHASE 2   Grace identity system (identity schema, reference registry, versioning)
 PHASE 3   Content intelligence (ideas, creative briefs, LLM provider, prompt compiler)
 PHASE 4   ComfyUI controller (health, workflow registry, submit, track, output detection)
@@ -950,6 +950,8 @@ not a mockup or demonstration.
 
 Foundation (2026-09-27) is implemented and tested in the cloud container. Not yet run on Jatin's Mac.
 Exists: config, SQLite + migrations, Character Bible (locked/pending, versions, export),
-LlmProvider + LM Studio adapter, ComfyUI/LM Studio health checks, Overview + Grace pages, 37 tests.
+LlmProvider + LM Studio adapter, ComfyUI/LM Studio health checks, Overview + Grace pages,
+event_log (migration 2), settings (migration 3: autopilot_mode, publish_mode, comfyui_output_folder;
+FULL/AUTOMATIC locked behind ALLOW_FULL_AUTOPILOT), AppError error model, 87 tests.
 Does not exist: everything else in the gap table of docs/architecture/grace-autopilot.md.
 Phases after Foundation require separate approval.

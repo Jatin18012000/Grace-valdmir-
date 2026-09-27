@@ -1,11 +1,15 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { z } from "zod";
+import { AppError, type AppErrorOptions } from "../errors";
 import { characterBibleSchema, type CharacterBible } from "./schema";
 
-export class CharacterBibleError extends Error {
-  constructor(message: string) {
-    super(message);
+export class CharacterBibleError extends AppError {
+  constructor(message: string, options: AppErrorOptions = {}) {
+    super("VALIDATION_ERROR", message, {
+      userMessage: "The Character Bible is invalid. Check the server logs for the exact fields.",
+      ...options,
+    });
     this.name = "CharacterBibleError";
   }
 }
@@ -31,7 +35,7 @@ export function loadCharacterBibleFile(filePath: string): LoadedBible {
   try {
     raw = JSON.parse(readFileSync(filePath, "utf8"));
   } catch (error) {
-    throw new CharacterBibleError(`Cannot read Character Bible at ${filePath}: ${String(error)}`);
+    throw new CharacterBibleError(`Cannot read Character Bible at ${filePath}`, { cause: error, details: { filePath } });
   }
   const bible = parseCharacterBible(raw);
   const canonicalJson = JSON.stringify(bible);

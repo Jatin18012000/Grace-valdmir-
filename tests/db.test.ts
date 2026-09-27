@@ -19,9 +19,9 @@ describe("SQLite initialisation", () => {
   it("creates the file, applies migrations once and is idempotent", () => {
     const dbPath = tempDbPath();
     const db = openDatabase(dbPath);
-    expect(migrate(db)).toEqual([1]);
+    expect(migrate(db)).toEqual([1, 2, 3]);
     expect(migrate(db)).toEqual([]);
-    expect(appliedMigrations(db).map((m) => m.name)).toEqual(["characters"]);
+    expect(appliedMigrations(db).map((m) => m.name)).toEqual(["characters", "event_log", "settings"]);
     expect(db.pragma("foreign_keys", { simple: true })).toBe(1);
     db.close();
 
@@ -37,7 +37,9 @@ describe("SQLite initialisation", () => {
 
   it("rolls back a failing migration", () => {
     const db = openDatabase(":memory:");
-    expect(() => migrate(db, [{ id: 1, name: "bad", sql: "CREATE TABLE t (x); SELECT * FROM missing;" }])).toThrow();
+    expect(() => migrate(db, [{ id: 1, name: "bad", sql: "CREATE TABLE t (x); SELECT * FROM missing;" }])).toThrow(
+      /Migration 1 \(bad\) failed/,
+    );
     expect(appliedMigrations(db)).toEqual([]);
     expect(db.prepare("SELECT name FROM sqlite_master WHERE name = 't'").get()).toBeUndefined();
   });

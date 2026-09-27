@@ -42,8 +42,9 @@ main { flex: 1; padding: 24px; max-width: 1000px; min-width: 0; }
 .card h2 { font-size: 14px; margin: 0 0 8px; }
 .badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; }
 .ONLINE, .LOCKED, .CREATED, .UPDATED, .UNCHANGED { color: var(--ok); }
-.OFFLINE, .PENDING, .PROPOSED { color: var(--warn); }
-.ERROR { color: var(--bad); }
+.OFFLINE, .PENDING, .PROPOSED, .WARNING { color: var(--warn); }
+.ERROR, .CRITICAL { color: var(--bad); }
+.INFO, .DEBUG { color: var(--muted); }
 .muted { color: var(--muted); }
 code, pre { font-size: 13px; overflow-wrap: anywhere; }
 pre { white-space: pre-wrap; }

@@ -84,7 +84,7 @@ export class LmStudioProvider implements LlmProvider {
         cache: "no-store",
       });
     } catch (error) {
-      throw new LlmProviderError(this.id, `Request failed: ${describeError(error)}`);
+      throw new LlmProviderError(this.id, `Request failed: ${describeError(error)}`, { cause: error });
     }
     if (!response.ok) {
       throw new LlmProviderError(this.id, `HTTP ${response.status}: ${await safeText(response)}`);

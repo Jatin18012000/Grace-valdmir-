@@ -38,6 +38,26 @@ export default async function OverviewPage() {
           </p>
         </div>
         <div className="card">
+          <h2>Settings</h2>
+          <table>
+            <tbody>
+              {Object.values(status.settings).map((setting) => (
+                <tr key={setting.key}>
+                  <td>{setting.key}</td>
+                  <td><code>{String(setting.value)}</code></td>
+                  <td className="muted">{setting.source}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="muted">
+            Output folder on this machine:{" "}
+            <span className={`badge ${status.outputFolder.isDirectory ? "ONLINE" : "OFFLINE"}`}>
+              {status.outputFolder.isDirectory ? "FOUND" : "NOT FOUND"}
+            </span>
+          </p>
+        </div>
+        <div className="card">
           <h2>Character Bible</h2>
           <span className={`badge ${bible.outcome}`}>{bible.outcome}</span>
           {bible.outcome === "ERROR" ? (
@@ -47,6 +67,22 @@ export default async function OverviewPage() {
           )}
         </div>
       </div>
+      <h2>Recent events</h2>
+      <table>
+        <thead>
+          <tr><th>Time</th><th>Severity</th><th>Event</th><th>Message</th></tr>
+        </thead>
+        <tbody>
+          {status.recentEvents.map((event) => (
+            <tr key={event.id}>
+              <td className="muted">{event.occurredAt}</td>
+              <td><span className={`badge ${event.severity}`}>{event.severity}</span></td>
+              <td><code>{event.eventType}</code></td>
+              <td>{event.message}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 }

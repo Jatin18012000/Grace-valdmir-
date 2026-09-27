@@ -1,3 +1,4 @@
+import { AppError, type AppErrorOptions } from "../../errors";
 import type { HealthResult } from "../health";
 
 /**
@@ -34,12 +35,16 @@ export interface LlmProvider {
   chat(request: ChatRequest): Promise<ChatResponse>;
 }
 
-export class LlmProviderError extends Error {
+export class LlmProviderError extends AppError {
   constructor(
     readonly provider: string,
     message: string,
+    options: AppErrorOptions = {},
   ) {
-    super(`[${provider}] ${message}`);
+    super("LLM_ERROR", `[${provider}] ${message}`, {
+      ...options,
+      details: { provider, ...options.details },
+    });
     this.name = "LlmProviderError";
   }
 }

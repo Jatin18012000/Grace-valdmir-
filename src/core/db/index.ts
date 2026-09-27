@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
+import { AppError } from "../errors";
 import { migrations as defaultMigrations, type Migration } from "./migrations";
 
 export type Db = Database.Database;
@@ -8,7 +9,15 @@ export type Db = Database.Database;
 /** Opens (and creates if needed) a SQLite database. Use ":memory:" for tests. */
 export function openDatabase(dbPath: string): Db {
   if (dbPath !== ":memory:") mkdirSync(path.dirname(dbPath), { recursive: true });
-  const db = new Database(dbPath);
+  let db: Db;
+  try {
+    db = new Database(dbPath);
+  } catch (error) {
+    throw new AppError("DATABASE_ERROR", `Cannot open SQLite database at ${dbPath}`, {
+      cause: error,
+      details: { dbPath },
+    });
+  }
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
   db.pragma("busy_timeout = 5000");
@@ -33,19 +42,26 @@ export function migrate(db: Db, migrations: readonly Migration[] = defaultMigrat
   );
   const ids = migrations.map((m) => m.id);
   if (new Set(ids).size !== ids.length || ids.some((id, i) => i > 0 && id <= (ids[i - 1] ?? 0))) {
-    throw new Error("Migration ids must be unique and strictly increasing.");
+    throw new AppError("DATABASE_ERROR", "Migration ids must be unique and strictly increasing.");
   }
   const newlyApplied: number[] = [];
   for (const migration of migrations) {
     if (applied.has(migration.id)) continue;
-    db.transaction(() => {
-      db.exec(migration.sql);
-      db.prepare("INSERT INTO schema_migrations (id, name, applied_at) VALUES (?, ?, ?)").run(
-        migration.id,
-        migration.name,
-        new Date().toISOString(),
-      );
-    })();
+    try {
+      db.transaction(() => {
+        db.exec(migration.sql);
+        db.prepare("INSERT INTO schema_migrations (id, name, applied_at) VALUES (?, ?, ?)").run(
+          migration.id,
+          migration.name,
+          new Date().toISOString(),
+        );
+      })();
+    } catch (error) {
+      throw new AppError("DATABASE_ERROR", `Migration ${migration.id} (${migration.name}) failed`, {
+        cause: error,
+        details: { migrationId: migration.id, migrationName: migration.name, appliedBefore: newlyApplied },
+      });
+    }
     newlyApplied.push(migration.id);
   }
   return newlyApplied;

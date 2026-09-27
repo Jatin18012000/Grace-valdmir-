@@ -119,7 +119,7 @@ QC result: `PASS | REVIEW | FAIL`
 
 Rules:
 - Transitions are only allowed along defined edges, enforced in code and tested.
-- Every transition writes a `system_events` row (see section 8).
+- Every transition writes an `event_log` row (see section 8).
 - A failure never deletes content. Assets are never silently deleted; archiving is explicit.
 
 ## 6. Autopilot modes
@@ -150,9 +150,25 @@ unless a retry is explicitly recorded.
 
 ## 8. Observability
 
-Table `system_events`: `id, occurred_at, event_type, entity_type, entity_id, data_json, level`.
-Examples: `IDEA_CREATED`, `PROMPT_CREATED`, `COMFY_JOB_SUBMITTED`, `ASSET_DETECTED`, `QC_PASSED`,
-`PUBLISHING_QUEUED`. The dashboard reads these; nothing on the dashboard is invented.
+Table `event_log` (migration 2): `id, occurred_at, event_type, severity, source, entity_type,
+entity_id, message, metadata_json, created_at`. Event types, severities (DEBUG, INFO, WARNING,
+ERROR, CRITICAL) and entity types are closed lists in `src/core/events`. The 18 pipeline event
+types (IDEA_CREATED … PUBLISH_FAILED) are defined; Phase 1 only emits system events
+(APP_STARTED, MIGRATION_APPLIED, SETTINGS_INITIALIZED, SETTING_CHANGED, CHARACTER_BIBLE_SYNCED,
+CHARACTER_BIBLE_INVALID, SYSTEM_ERROR). Metadata is redacted for secrets before it is stored.
+The dashboard reads these; nothing on the dashboard is invented.
+
+Errors: every module throws `AppError` with a code (CONFIGURATION_ERROR, DATABASE_ERROR,
+VALIDATION_ERROR, NOT_FOUND, LLM_ERROR, COMFYUI_ERROR, GENERATION_ERROR, ASSET_ERROR, QC_ERROR,
+SCHEDULING_ERROR, PUBLISHING_ERROR, UNKNOWN_ERROR). API responses carry only `{ code, message }`
+(safe message); full redacted diagnostics go to the server log and, for server errors, to
+`event_log` as SYSTEM_ERROR.
+
+Settings: table `settings` (migration 3), service in `src/core/settings`. Keys: `autopilot_mode`
+(ASSISTED | SUPERVISED | FULL, default ASSISTED), `publish_mode` (MANUAL | AUTOMATIC, default
+MANUAL), `comfyui_output_folder` (absolute path). Environment variables seed a key only when it is
+first created; afterwards the stored value wins and changes go through `PATCH /api/settings`,
+each recorded as SETTING_CHANGED. FULL and AUTOMATIC are rejected unless `ALLOW_FULL_AUTOPILOT=true`.
 
 ## 9. Data model (planned SQLite tables)
 
@@ -160,7 +176,7 @@ Examples: `IDEA_CREATED`, `PROMPT_CREATED`, `COMFY_JOB_SUBMITTED`, `ASSET_DETECT
 |---|---|---|
 | `schema_migrations` | 1 | yes |
 | `characters`, `character_bible_versions` (= grace_identity + identity versioning) | 1 | yes |
-| `system_events`, `settings` | 1 (gap) | no |
+| `event_log`, `settings` | 1 | yes (migrations 2, 3) |
 | `reference_images` | 2 | no |
 | `content_ideas`, `creative_briefs`, `compiled_prompts` | 3 | no |
 | `workflows`, `generation_jobs` | 4 | no |
@@ -208,9 +224,10 @@ Legend: EXISTS (in repo and tested) · DOC (only described) · MISSING · BLOCKE
 | Area | State | Notes |
 |---|---|---|
 | Next.js, TypeScript strict, SQLite, migrations, Zod, Vitest | EXISTS | 37 tests; typecheck, lint, build pass (cloud container only) |
-| Config (env, zod) | EXISTS | Needs `AUTOPILOT_MODE`, `PUBLISH_MODE`, `COMFYUI_OUTPUT_DIR` added |
-| Structured logging / `system_events` | MISSING | Phase 1 gap in the new spec |
-| Error handling conventions (typed errors, Result type) | PARTIAL | Typed errors in config, bible and LLM only |
+| Config (env, zod) | EXISTS | Includes `AUTOPILOT_MODE`, `PUBLISH_MODE`, `COMFYUI_OUTPUT_FOLDER`, `ALLOW_FULL_AUTOPILOT` |
+| Structured event log (`event_log`) | EXISTS | Infrastructure only; pipeline events emitted from later phases |
+| Runtime settings (`settings`) | EXISTS | autopilot_mode, publish_mode, comfyui_output_folder |
+| Error handling (`AppError` codes, redaction, safe API errors) | EXISTS | All API routes wrapped |
 | LLM provider interface + LM Studio adapter | EXISTS | Tested with stubs only; never against real LM Studio |
 | ComfyUI health check | EXISTS | Tested with stubs and a closed port only |
 | Character Bible (locked/pending, versioning, export) | EXISTS | Reuse as the Grace Identity Engine's data source |
@@ -236,7 +253,7 @@ Legend: EXISTS (in repo and tested) · DOC (only described) · MISSING · BLOCKE
 | Phase | Scope | Can start now? |
 |---|---|---|
 | 0 | Audit | Done (this document) |
-| 1 | Foundation | Mostly done. Remaining: `system_events` logging, `settings`, error conventions, new config keys |
+| 1 | Foundation | Done (cloud-tested; not yet run on the Mac) |
 | 2 | Grace identity system: reference registry, identity versioning, approval rules | Code yes; real data needs the reference file mapping |
 | 3 | Content intelligence: ideas, briefs, prompt compiler, LLM via `LlmProvider` | Yes (real LLM test needs LM Studio on the Mac) |
 | 4 | ComfyUI controller: workflow registry, submit, track, output resolver | Interfaces yes; stops at the adapter boundary without real workflows |
