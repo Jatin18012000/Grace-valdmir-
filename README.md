@@ -25,7 +25,7 @@ voice, FFmpeg, publishing.
 npm install
 cp .env.example .env.local   # optional; defaults work for a standard local setup
 npm run db:init              # creates data/grace.db and loads characters/grace/bible.json
-npm run dev                  # http://localhost:3000
+npm run dev                  # http://localhost:3000 (bound to 127.0.0.1 only; not reachable from the LAN)
 ```
 
 ## Commands

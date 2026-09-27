@@ -569,7 +569,10 @@ Autopilot modes (GRACE AUTOPILOT):
 - SUPERVISED: the system runs everything including QC; a human can review before publishing.
 - FULL: publishes without approval. Must NOT be enabled during development; needs explicit approval.
 
-PUBLISH_MODE defaults to MANUAL_APPROVAL. Never silently publish. Never silently delete assets.
+PUBLISH_MODE defaults to MANUAL. Never silently publish. Never silently delete assets.
+Publishing/autopilot components must re-check autopilot_mode, publish_mode and the current
+ALLOW_FULL_AUTOPILOT lock immediately before any external action; a stored FULL/AUTOMATIC value
+never bypasses the current lock (docs/architecture/grace-autopilot.md, section 6).
 Publishing goes through a replaceable PublishingAdapter (Manual first; Claude/Chrome is EXPERIMENTAL).
 
 ---
@@ -954,4 +957,15 @@ LlmProvider + LM Studio adapter, ComfyUI/LM Studio health checks, Overview + Gra
 event_log (migration 2), settings (migration 3: autopilot_mode, publish_mode, comfyui_output_folder;
 FULL/AUTOMATIC locked behind ALLOW_FULL_AUTOPILOT), AppError error model, 87 tests.
 Does not exist: everything else in the gap table of docs/architecture/grace-autopilot.md.
+The app binds to 127.0.0.1 only (npm run dev / npm run start); not exposed to the LAN.
 Phases after Foundation require separate approval.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

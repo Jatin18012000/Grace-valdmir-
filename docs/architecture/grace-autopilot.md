@@ -133,6 +133,20 @@ Rules:
 Configured with `AUTOPILOT_MODE` and `PUBLISH_MODE` (`MANUAL_APPROVAL` default, `AUTOMATIC` later).
 FULL / AUTOMATIC needs explicit owner approval before it can be enabled.
 
+**Execution-time re-check (recorded 2026-09-27, Phase 1 finding).** The Phase 1 settings service
+enforces the `ALLOW_FULL_AUTOPILOT` lock only when a value is written. A FULL or AUTOMATIC value
+saved while the lock was open stays stored if the lock is later closed. Therefore every future
+component that performs an unattended or external action (Phase 10 publishing queue, Phase 11
+browser adapter, Phase 12 autopilot) must, immediately before that action, re-read and check:
+
+1. `autopilot_mode`
+2. `publish_mode`
+3. the current `ALLOW_FULL_AUTOPILOT` safety lock from configuration
+
+If the stored mode is FULL/AUTOMATIC and the lock is not currently open, the action must not run
+unattended: it falls back to manual approval and is logged. A previously saved FULL/AUTOMATIC value
+must never bypass the current safety configuration.
+
 ## 7. Safety and failure handling
 
 | Situation | Behaviour |
